@@ -29,7 +29,7 @@ end
 
 bash 'wp-core-config' do
   cwd '/vagrant'
-  code "/usr/local/bin/wp core config --dbname='#{node[:wordpress][:db_name]}' --dbuser='#{node[:wordpress][:db_user]}' --dbpass='#{node[:wordpress][:db_pass]}' --dbhost='#{node[:wordpress][:db_host]}' --dbprefix='#{node[:wordpress][:db_prefix]}' --dbcharset='#{node[:wordpress][:db_charset]}' --dbcollate-'#{node[:wordpress][:db_collate]} --locale='#{node[:wordpress][:locale]}'"
+  code "/usr/local/bin/wp core config --dbname='#{node[:wordpress][:db_name]}' --dbuser='#{node[:wordpress][:db_user]}' --dbpass='#{node[:wordpress][:db_pass]}' --dbhost='#{node[:wordpress][:db_host]}' --dbprefix='#{node[:wordpress][:db_prefix]}' --dbcharset='#{node[:wordpress][:db_charset]}' --dbcollate-'#{node[:wordpress][:db_collate]}' --locale='#{node[:wordpress][:locale]}'"
   creates '/vagrant/wp-config.php'
 end
 
