@@ -38,6 +38,13 @@ bash 'wp-core-install' do
   code "/usr/local/bin/wp core install --url='#{node[:wordpress][:url]}' --title='#{node[:wordpress][:site_title]}' --admin_user='#{node[:wordpress][:admin][:username]}' --admin_password='#{node[:wordpress][:admin][:password]}' --admin_email='#{node[:wordpress][:admin][:email]}'"
 end
 
+unless node[:wordpress][:active_theme].nil?
+  bash 'wp-theme-activate' do
+    cwd '/vagrant'
+    code "/usr/local/bin/wp theme activate #{ode[:wordpress][:active_theme]}"
+  end
+end
+
 cookbook_file '/vagrant/.htaccess' do
   source 'htaccess.txt'
   owner 'vagrant'

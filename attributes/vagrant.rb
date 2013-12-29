@@ -14,3 +14,5 @@ default[:wordpress][:locale] = nil
 default[:wordpress][:admin][:username] = 'admin'
 default[:wordpress][:admin][:password] = 'vagrant'
 default[:wordpress][:admin][:email]    = 'vagrant@localhost'
+
+default[:wordpress][:active_theme] = nil
