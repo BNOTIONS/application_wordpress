@@ -41,7 +41,7 @@ end
 unless node[:wordpress][:active_theme].nil?
   bash 'wp-theme-activate' do
     cwd '/vagrant'
-    code "/usr/local/bin/wp theme activate #{ode[:wordpress][:active_theme]}"
+    code "/usr/local/bin/wp theme activate #{node[:wordpress][:active_theme]}"
   end
 end
 
