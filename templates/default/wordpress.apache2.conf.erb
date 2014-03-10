@@ -26,11 +26,16 @@
   </DirectoryMatch>
 
   LogLevel info
-  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
-  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
+  ErrorLog <%= node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
+
+  FastCgiExternalServer <%= @params[:php_bin] %>/php5.external -socket <%= @params[:fpm_socket] %>
+  Alias /php-bin <%= @params[:php_bin] %>
+  
 
   RewriteEngine On
-  RewriteLog <%= node['apache']['log_dir'] %>/<%= @application_name %>-rewrite.log
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
   RewriteLogLevel 0
+  RewriteLog <%= node[:apache][:log_dir] %>/<%= @application_name %>-rewrite.log
 
 </VirtualHost>
