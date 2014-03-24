@@ -20,7 +20,7 @@ template "#{Dir.tmpdir}/grants.sql" do
   mode 00600
   variables(
     :username => node[:wordpress][:db_user],
-    :password => node[:wordpress][:db_pass],
+    :password => node[:wordpress][:db_password],
     :database => node[:wordpress][:db_name]
   )
   notifies :run, 'execute[grant-privileges]', :immediately
@@ -40,27 +40,30 @@ include_recipe 'application_wordpress::wp_cli'
 
 bash 'wp-core-config' do
   cwd '/vagrant'
-  code "/usr/local/bin/wp core config --dbname='#{node[:wordpress][:db_name]}' --dbuser='#{node[:wordpress][:db_user]}' --dbpass='#{node[:wordpress][:db_pass]}' --dbhost='#{node[:wordpress][:db_host]}' --dbprefix='#{node[:wordpress][:db_prefix]}' --dbcharset='#{node[:wordpress][:db_charset]}' --locale='#{node[:wordpress][:locale]}' --allow-root"
+  code "/usr/local/bin/wp core config --dbname='#{node[:wordpress][:db_name]}' --dbuser='#{node[:wordpress][:db_user]}' --dbpass='#{node[:wordpress][:db_password]}' --dbhost='#{node[:wordpress][:db_host]}' --dbprefix='#{node[:wordpress][:db_prefix]}' --dbcharset='#{node[:wordpress][:db_charset]}' --locale='#{node[:wordpress][:locale]}' --allow-root"
   creates '/vagrant/wp-config.php'
 end
 
 bash 'wp-core-install' do
   cwd '/vagrant'
-  code "/usr/local/bin/wp core install --url='#{node[:wordpress][:url]}' --title='#{node[:wordpress][:site_title]}' --admin_user='#{node[:wordpress][:admin][:username]}' --admin_password='#{node[:wordpress][:admin][:password]}' --admin_email='#{node[:wordpress][:admin][:email]}' --allow-root"
+  code "/usr/local/bin/wp core install --url='#{node[:wordpress][:url]}' --title='#{node[:wordpress][:site_title]}' --admin_user='#{node[:wordpress][:admin_user]}' --admin_password='#{node[:wordpress][:admin_password]}' --admin_email='#{node[:wordpress][:admin_email]}' --allow-root"
+  not_if 'wp core is-installed'
 end
 
-unless node[:wordpress][:active_theme].nil?
+unless node[:wordpress][:theme].nil?
   bash 'wp-theme-activate' do
     cwd '/vagrant'
-    code "/usr/local/bin/wp theme activate '#{node[:wordpress][:active_theme]}' --allow-root"
+    code "/usr/local/bin/wp theme activate '#{node[:wordpress][:theme]}' --allow-root"
+    only_if "wp theme is_installed #{node[:wordpress][:theme]} --allow-root"
   end
 end
 
-unless node[:wordpress][:active_plugins].nil?
-  node[:wordpress][:active_plugins].each do |wp_plugin|
+unless node[:wordpress][:plugins].nil?
+  node[:wordpress][:plugins].each do |wp_plugin|
     bash 'wp-plugin-activate' do
       cwd '/vagrant'
       code "/usr/local/bin/wp plugin activate '#{wp_plugin}' --allow-root"
+      only_if "/usr/local/bin/wp plugin is-installed '#{wp_plugin}' --allow-root"
     end
   end
 end
