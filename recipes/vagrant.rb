@@ -105,6 +105,10 @@ php_fpm 'wordpress' do
   max_children 4
 end
 
+service 'php5-fpm' do
+  action :restart
+end
+
 include_recipe 'apache2'
 include_recipe 'apache2::mod_actions'
 include_recipe 'apache2::mod_fastcgi'
