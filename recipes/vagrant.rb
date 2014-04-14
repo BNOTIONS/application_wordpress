@@ -106,7 +106,7 @@ php_fpm 'wordpress' do
 end
 
 service 'php5-fpm' do
-  action :restart
+  action [:restart, :enable]
 end
 
 include_recipe 'apache2'
