@@ -78,10 +78,6 @@ action :before_migrate do
     to "#{new_resource.shared_path}/#{new_resource.wp_config_base}"
   end
 
-  link "#{new_resource.release_path}/.htaccess" do
-    to "#{new_resource.shared_path}/htaccess"
-  end
-
   # should only be called on the first run of a new wordpress site
   bash "wp-core-install" do
     user new_resource.owner
