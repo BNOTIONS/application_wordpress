@@ -15,7 +15,8 @@ action :before_compile do
   )
 
   new_resource.symlink_before_migrate.update(
-    new_resource.wp_config_base => new_resource.wp_config_file
+    new_resource.wp_config_base => new_resource.wp_config_file,
+    'htaccess' => '.htaccess'
   )
 
   directory ::File.join(new_resource.path, "shared", new_resource.wp_uploads_base) do
