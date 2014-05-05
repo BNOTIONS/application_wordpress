@@ -32,6 +32,8 @@ action :before_deploy do
   template "#{new_resource.shared_path}/#{new_resource.wp_config_base}" do
     source new_resource.config_template || "wp-config.php.erb"
     cookbook new_resource.config_template ? new_resource.cookbook_name.to_s : "application_wordpress"
+    owner new_resource.owner
+    group new_resource.group
     mode 00644
     variables ({
       :debug => new_resource.debug,
@@ -54,6 +56,14 @@ action :before_deploy do
     })
   end
 
+  cookbook_file "#{new_resource.shared_path}/htaccess" do
+    source 'htaccess.txt'
+    owner new_resource.owner
+    group new_resource.group
+    mode 00644
+    action :create_if_missing # prevent overwriting file because there maybe local changes
+  end
+
 end
 
 action :before_symlink do
@@ -64,6 +74,10 @@ action :before_migrate do
   # this is a hack because before_migrate is called before symlink_before_migrate
   link "#{new_resource.release_path}/#{new_resource.wp_config_file}" do
     to "#{new_resource.shared_path}/#{new_resource.wp_config_base}"
+  end
+
+  link "#{new_resource.release_path}/.htaccess" do
+    to "#{new_resource.shared_path}/htaccess"
   end
 
   # should only be called on the first run of a new wordpress site
