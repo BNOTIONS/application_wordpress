@@ -58,6 +58,7 @@ action :before_deploy do
 
   cookbook_file "#{new_resource.shared_path}/htaccess" do
     source 'htaccess.txt'
+    cookbook new_resource.config_template ? new_resource.cookbook_name.to_s : "application_wordpress"
     owner new_resource.owner
     group new_resource.group
     mode 00644
