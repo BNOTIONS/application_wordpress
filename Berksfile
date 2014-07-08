@@ -2,4 +2,4 @@ site :opscode
 
 metadata
 
-cookbook 'php', git: 'https://github.com/priestjim/chef-php'
+cookbook "php", github: "priestjim/chef-php.git", tag: "1.2.0"
