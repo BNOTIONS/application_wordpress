@@ -64,7 +64,7 @@ unless node[:wordpress][:plugins].nil?
 end
 
 cookbook_file '/vagrant/.htaccess' do
-  source 'htaccess.txt'
+  source 'htaccess_vagrant.txt'
   owner 'vagrant'
   group 'vagrant'
   mode 00644
