@@ -28,11 +28,6 @@ end
 
 include_recipe 'php'
 include_recipe 'php::fpm'
-
-directory '/var/run/php-fpm/wordpress' do
-  recursive true
-end
-
 include_recipe 'php::module_mysql'
 include_recipe 'php::module_curl'
 include_recipe 'php::module_gd'
@@ -97,7 +92,7 @@ php_fpm 'wordpress' do
   user 'vagrant'
   group 'vagrant'
   socket true
-  socket_path '/var/run/php-fpm/wordpress.sock'
+  socket_path '/tmp/wordpress.sock'
   socket_perms "0666"
   start_servers 2
   min_spare_servers 2
@@ -124,6 +119,6 @@ web_app 'wordpress' do
   server_name 'wordpress'
   server_aliases ['*']
   docroot '/vagrant'
-  php_bin '/var/run/php-fpm/wordpress'
-  fpm_socket '/var/run/php-fpm/wordpress.sock'
+  php_bin '/tmp'
+  fpm_socket '/tmp/wordpress.sock'
 end
