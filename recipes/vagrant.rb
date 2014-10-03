@@ -1,6 +1,6 @@
 require 'tmpdir'
 
-include_recipe 'build-essential'
+include_recipe 'build-essential::default'
 include_recipe 'mysql::client'
 include_recipe 'mysql::server'
 
@@ -26,7 +26,7 @@ template "#{Dir.tmpdir}/grants.sql" do
   notifies :run, 'execute[grant-privileges]', :immediately
 end
 
-include_recipe 'php'
+include_recipe 'php::default'
 include_recipe 'php::fpm'
 include_recipe 'php::module_mysql'
 include_recipe 'php::module_curl'
@@ -104,7 +104,8 @@ service 'php5-fpm' do
   action [:restart, :enable]
 end
 
-include_recipe 'apache2'
+incldue_recipe 'application_wordpres::multiverse'
+include_recipe 'apache2::default'
 include_recipe 'apache2::mod_actions'
 include_recipe 'apache2::mod_fastcgi'
 
