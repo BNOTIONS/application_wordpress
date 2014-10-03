@@ -4,7 +4,7 @@ apt_repository 'precise-multiverse' do
   distribution 'precise'
   components ['multiverse']
   deb_src true
-  notifies :run, "execute[apt-get update]", :immediately
+  notifies :run, "execute[apt-get-update]", :immediately
 end
 
 apt_repository 'precise-updates-multiverse' do
@@ -12,5 +12,5 @@ apt_repository 'precise-updates-multiverse' do
   distribution 'precise-updates'
   components ['multiverse']
   deb_src true
-  notifies :run, "execute[apt-get update]", :immediately
+  notifies :run, "execute[apt-get-update]", :immediately
 end

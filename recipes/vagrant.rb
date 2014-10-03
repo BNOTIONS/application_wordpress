@@ -104,7 +104,7 @@ service 'php5-fpm' do
   action [:restart, :enable]
 end
 
-incldue_recipe 'application_wordpres::multiverse'
+include_recipe 'application_wordpress::multiverse'
 include_recipe 'apache2::default'
 include_recipe 'apache2::mod_actions'
 include_recipe 'apache2::mod_fastcgi'

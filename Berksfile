@@ -1,5 +1,5 @@
 site :opscode
 
-cookbook "php", "~> 1.2.3", github: "priestjim/chef-php"
-
 metadata
+
+cookbook "php", github: "priestjim/chef-php"
